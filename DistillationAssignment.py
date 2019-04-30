@@ -1,4 +1,4 @@
-percentages = [5,10,20,30,40,50,60,70,80,90]
+percentages = [5,10,20,30,40,50,60,70,80,90, 95, 99]
 crudeNames = ["MSW", "MSB"]
 crudes = [{
     5: 36.1,
@@ -11,6 +11,8 @@ crudes = [{
     70: 410.2,
     80: 485.5,
     90: 604.4,
+    95: None,
+    99: None
 },
 
     {
@@ -23,8 +25,10 @@ crudes = [{
     60: 353.0,
     70: 420.6,
     80: 502.1,
-    90: 638.3
-}]
+    90: 638.3,
+    95: None,
+    99: None
+},]
 newDistillation = {}
 
 #Getting input
@@ -46,10 +50,15 @@ total = int(volume1) + int(volume2)
 percentage1 = int(volume1) / total
 percentage2 = int(volume2) / total
 
-
 for i in percentages:
-    newDistillation[i] = crudes[crudeNames.index(crude1)][i] * percentage1
-    newDistillation[i] += crudes[crudeNames.index(crude2)][i] * percentage2
+    if (crudes[crudeNames.index(crude1)][i] != None) and (crudes[crudeNames.index(crude2)][i] != None):
+        newDistillation[i] = crudes[crudeNames.index(crude1)][i] * percentage1
+        newDistillation[i] += crudes[crudeNames.index(crude2)][i] * percentage2
+    elif (crudes[crudeNames.index(crude1)][i] == None) and (crudes[crudeNames.index(crude2)][i] == None):
+        newDistillation[i] = None
+    elif (crudes[crudeNames.index(crude1)][i] == None):
+        newDistillation[i] = crudes[crudeNames.index(crude2)][i] * percentage2
+    elif (crudes[crudeNames.index(crude2)][i] == None):
+        newDistillation[i] = crudes[crudeNames.index(crude1)][i] * percentage1
 
-for i in percentages:
     print(str(i) + ":" + str(newDistillation[i]))
