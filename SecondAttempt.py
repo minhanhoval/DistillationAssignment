@@ -1,9 +1,9 @@
 import numpy as np
 crudeNames = ["MSW", "MSB", "MPR"]
 
-crudes =[ [36.1, 82.2, 129.6, 178, 234.4, 290.5, 346.2, 410.2, 485.5, 604.4],
-          [36.1,78.1,123.5,175.5,231.4,292.6,353.0,420.6,502.1,638.3],
-          [95.9, 165.2, 237.2, 316.6, 396.9, 496.0,596.5, 707.4, 833.4, 1008.5, 1169.1]]
+crudes =[[36.1, 82.2, 129.6, 178, 234.4, 290.5, 346.2, 410.2, 485.5, 604.4],
+        [36.1,78.1,123.5,175.5,231.4,292.6,353.0,420.6,502.1,638.3],
+        [95.9, 165.2, 237.2, 316.6, 396.9, 496.0,596.5, 707.4, 833.4, 1008.5, 1169.1]]
 y = [5,10,20,30,40,50,60,70,80,90, 95, 99]
 
 #Getting input
@@ -37,9 +37,15 @@ percentage1 = float(volume1) / total
 percentage2 = float(volume2) / total
 newDistillationVols = []
 for i in range(len(temps)):
-    newDistillationVols.append(round(percentage1 *(np.interp(temps[i], crude1idx, crude1y)) + percentage2*(np.interp(temps[i], crude2idx, crude2y))))
+    newDistillationVols.append(percentage1 * (np.interp(temps[i], crude1idx, crude1y)) + percentage2*(np.interp(temps[i], crude2idx, crude2y)))
 for i in y:
     if i in newDistillationVols:
         print(str(i) + ":" + str(temps[newDistillationVols.index(i)]))
     else:
-        print(str(i) + ":" + str(None))
+        roundedVols = []
+        for j in range(len(newDistillationVols)):
+            roundedVols.append(round(newDistillationVols[j]))
+        if i in roundedVols:
+            print(str(i) + ":" + str(temps[roundedVols.index(i)]))
+        else:
+            print(str(i) + ":" + str(None))
